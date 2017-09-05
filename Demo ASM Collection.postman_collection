@@ -108,6 +108,186 @@
 					"response": []
 				},
 				{
+					"name": "Get All ASM Parent Policies - v13",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"//var jsonData = JSON.parse(responseBody);",
+									"//postman.setEnvironmentVariable(\"F5_asm_policy_id\", \"jsonData.id\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt_v13}}/mgmt/tm/asm/policies?$filter=type+eq+parent",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt_v13}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"policies"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "type+eq+parent",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token_v13}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"ASM_Test_Policy_2\"}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get All ASM Security Policies - v13",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"//var jsonData = JSON.parse(responseBody);",
+									"//postman.setEnvironmentVariable(\"F5_asm_policy_id\", \"jsonData.id\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt_v13}}/mgmt/tm/asm/policies?$filter=type+eq+security",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt_v13}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"policies"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "type+eq+security",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token_v13}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"ASM_Test_Policy_2\"}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get All ASM Child Security Policies - v13",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"//var jsonData = JSON.parse(responseBody);",
+									"//postman.setEnvironmentVariable(\"F5_asm_policy_id\", \"jsonData.id\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt_v13}}/mgmt/tm/asm/policies?$filter=type+eq+security&$filter=hasParent+eq+'true'",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt_v13}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"policies"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "type+eq+security",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "$filter",
+									"value": "hasParent+eq+'true'",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token_v13}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"ASM_Test_Policy_2\"}\n"
+						},
+						"description": "Fetches policies that are security policies with a defined parent"
+					},
+					"response": []
+				},
+				{
 					"name": "POST New ASM Policy",
 					"event": [
 						{
@@ -139,6 +319,43 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\"name\": \"ASM_Test_Policy_28\"}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "POST New ASM Parent Policy - v13",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"//var jsonData = JSON.parse(responseBody);",
+									"//postman.setEnvironmentVariable(\"F5_asm_policy_id\", jsonData.id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{big_ip_a_mgmt_v13}}/mgmt/tm/asm/policies",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token_v13}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"ASM_Test_Policy_Parent_1\",\n\t\"type\": \"parent\"\n\t\n}\n"
 						},
 						"description": ""
 					},
@@ -218,6 +435,31 @@
 							{
 								"key": "X-F5-Auth-Token",
 								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get General Policy Settings - v13",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt_v13}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token_v13}}",
 								"description": ""
 							}
 						],
@@ -2835,7 +3077,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"password\",\n    \"loginProviderName\":\"tmos\"\n}"
+					"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"@mike5651\",\n    \"loginProviderName\":\"tmos\"\n}"
 				},
 				"description": ""
 			},
