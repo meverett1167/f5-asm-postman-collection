@@ -1,0 +1,2845 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Demo ASM Collection",
+		"_postman_id": "ffa2fe7e-4e2a-c084-e015-b25b89bd27bd",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ASM_Policy_Actions",
+			"description": "Requests in this folder are just for viewing and manipulating elements of the ASM Security Policy itself",
+			"item": [
+				{
+					"name": "Get All ASM Policies",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"//var jsonData = JSON.parse(responseBody);",
+									"//postman.setEnvironmentVariable(\"F5_asm_policy_id\", \"jsonData.id\");"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"ASM_Test_Policy_2\"}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get ASM Policies - Filter Specific Policy - Stored in variable",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"F5_asm_policy_id\", \"jsonData.id\");",
+									"console.log(\"F5 ASM Policy ID:\",jsonData.items[0].id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies?$filter=name+eq+'www.bwc.ohio.gov_http'",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"policies"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "name+eq+'www.bwc.ohio.gov_http'",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"ASM_Test_Policy_2\"}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "POST New ASM Policy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"//var jsonData = JSON.parse(responseBody);",
+									"//postman.setEnvironmentVariable(\"F5_asm_policy_id\", jsonData.id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"ASM_Test_Policy_28\"}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get Policy - Filtered on Policy Name - Stored in variable",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"F5_asm_policy_id\",jsonData.items[0].id);",
+									"//console.log(\"Items ID:\",jsonData.items[0].id);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies?$filter=name+eq+'www.bwc.ohio.gov_http'",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"policies"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "name+eq+'www.bwc.ohio.gov_http'",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": "Note: using this request to get MD5Hash to identify a specific policy, then will use this policy ID to perform requests on suggestions/etc.  I have a lot of junk policies on box, that might not have anything so using one I know will have entries."
+					},
+					"response": []
+				},
+				{
+					"name": "Get General Policy Settings",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Modify General Policy Settings - Set Policy Block Mode Transparent",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"enforcementMode\": \"transparent\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Modify General Policy Settings - Set Policy Learning Mode Automatic",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learningMode\":\"automatic\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get General Policy Blocking/Learning Settings",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/blocking-settings",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get General Policy Blocking/Learning Settings - v13",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt_v13}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/blocking-settings",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token_v13}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DIsable Blocking - Policy Wide",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/blocking-settings",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get Policy Blocking/Learning Settings All HTTP Subviolations",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/blocking-settings/http-protocols",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Status of Specific HTTP Protocol Subviolation",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/blocking-settings/http-protocols/yB5yjZ1ML2NvBn-JzBSGLA",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Signature Sets",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/signature-sets",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Signature Set Details",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/signature-sets",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Signature Sets - filter by blocking",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/signature-sets",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Policy Signatures",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/signatures",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Policy Signature - Filter by Enabled, Select ID",
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/signatures?$filter=enabled+eq+'true'&$select=id",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"policies",
+								"{{F5_asm_policy_id}}",
+								"signatures"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "enabled+eq+'true'",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "$select",
+									"value": "id",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Policy specific signature details",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/signatures/yphzeMudy8K5R6jScHzTRg",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Global Signature Details",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/signatures/nHU-8zUxj8ldUevwMgFpvw",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Global Signatures - Show First 5",
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/signatures?$top=5",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"signatures"
+							],
+							"query": [
+								{
+									"key": "$top",
+									"value": "5",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Signature Updates",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/tasks/check-signatures",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Signature Set - Filter Signature Sets by Name,ID",
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/signature-sets?$select=name,id",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"signature-sets"
+							],
+							"query": [
+								{
+									"key": "$select",
+									"value": "name,id",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Signature Set - Filter Signature Sets filter Name Contains",
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/signature-sets?$filter=contains(name, 'Generic')",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"signature-sets"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "contains(name, 'Generic')",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Signature Set - Filter Signature Sets filter Name Contains & get ID only",
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/signature-sets?$filter=contains(name, 'Generic')&$select=id,name",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"signature-sets"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "contains(name, 'Generic')",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "$select",
+									"value": "id,name",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Signature Set - Filter Signature Sets by Name,ID - v13",
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt_v13}}/mgmt/tm/asm/signature-sets?$select=name,id",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt_v13}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"signature-sets"
+							],
+							"query": [
+								{
+									"key": "$select",
+									"value": "name,id",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token_v13}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Specific Signature Set - v13",
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt_v13}}/mgmt/tm/asm/signature-sets?$select=name,id",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt_v13}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"signature-sets"
+							],
+							"query": [
+								{
+									"key": "$select",
+									"value": "name,id",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token_v13}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Specific Signature Set - v12",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/signature-sets/{{F5_sample_sig_set_id}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Get IP Address Exception List",
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/whitelist-ips?$filter=neverBlockRequests+eq+true&$select=ipAddress,ipMask",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"policies",
+								"{{F5_asm_policy_id}}",
+								"whitelist-ips"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "neverBlockRequests+eq+true",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "$select",
+									"value": "ipAddress,ipMask",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Get IP Address Exception- Filtered on IP - Stored in variable",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"f5_asm_wl_entry_id\", jsonData.items[0].id);",
+									"console.log(\"F5 IP Whitelist Entry ID: \", jsonData.items[0].id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/whitelist-ips?$filter=ipAddress+eq+'44.4.4.47'",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"policies",
+								"{{F5_asm_policy_id}}",
+								"whitelist-ips"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "ipAddress+eq+'44.4.4.47'",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI.\n\nNote: This request stores filtered value to Postman environmental variable \"f5_asm_wl_entry_id\""
+					},
+					"response": []
+				},
+				{
+					"name": "Add IP Address to IP Address Exception List - Trusted IP",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/whitelist-ips",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ignoreIpReputation\": false,\n    \"ignoreAnomalies\": false,\n    \"neverLogRequests\": false,\n    \"ipAddress\": \"4.4.4.4\",\n    \"description\": \"\",\n    \"neverLearnRequests\": false,\n    \"ipMask\": \"255.255.255.255\",\n    \"trustedByPolicyBuilder\": true,\n    \"neverBlockRequests\": false\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete IP Address from IP Address Exception List - Trusted IP",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/whitelist-ips/{{f5_asm_wl_entry_id}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete IP Address from IP Address Exception List - Delete w/ Filter",
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/whitelist-ips?$filter=ipAddress+eq+'4.4.4.4'",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"policies",
+								"{{F5_asm_policy_id}}",
+								"whitelist-ips"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "ipAddress+eq+'4.4.4.4'",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Modify Existing IP Address in IP Address Exception List - Never Block",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/whitelist-ips/Ag87Wj4FFSMgT85DrfXS7w",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"neverBlockRequests\": true\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Disable Policy Blocking on Specific Signature Set",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/signature-sets/{{F5_sample_sig_set_id}}",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"block\": true\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH - Disable All HTTP Protocol Violations",
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/blocking-settings/http-protocols?ver=12.1.0",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"policies",
+								"{{F5_asm_policy_id}}",
+								"blocking-settings",
+								"http-protocols"
+							],
+							"query": [
+								{
+									"key": "ver",
+									"value": "12.1.0",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"enabled\": \"false\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH - Enable/Learn Specific HTTP Protocol Violation",
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/blocking-settings/http-protocols/xMpCOKC5I4INzFCab3WEmw?ver=12.1.0",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"policies",
+								"{{F5_asm_policy_id}}",
+								"blocking-settings",
+								"http-protocols",
+								"xMpCOKC5I4INzFCab3WEmw"
+							],
+							"query": [
+								{
+									"key": "ver",
+									"value": "12.1.0",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"learn\": true,\n  \"enabled\": true\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GET Event Requests",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/events/requests",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"API_ASM_Policy\"}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GET Event Requests - Filter request with Violations",
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/events/requests?$filter=enforcementState/hasViolations eq true",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"events",
+								"requests"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "enforcementState/hasViolations eq true",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"API_ASM_Policy\"}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GET Event Requests - Filter request with Violations Rating GT 3 and not blocked",
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/events/requests?$filter=enforcementState/hasViolations eq true and enforcementState/rating gt 3 and enforcementState/isBlocked eq false",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"events",
+								"requests"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "enforcementState/hasViolations eq true and enforcementState/rating gt 3 and enforcementState/isBlocked eq false",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"API_ASM_Policy\"}\n"
+						},
+						"description": "Example of filtering request log to get requests matching only specific criteria"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Policy Suggestions",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/suggestions",
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Request uses variable set in earlier request for the policy ID of a lab policy I know to have policy suggestions."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Policy Suggestions - Filter Suggestions w/ Occurence Count GT 'x' & averageViolation rating GT 'x'",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"F5_asm_hkz_suggestion_id\",jsonData.items[0].id);",
+									"console.log(\"Items ID:\",jsonData.items[0].id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/suggestions?$filter=occurrences+gt+5 and averageViolationRating+gt+3",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"policies",
+								"{{F5_asm_policy_id}}",
+								"suggestions"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "occurrences+gt+5 and averageViolationRating+gt+3",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Request uses variable set in earlier request for the policy ID of a lab policy I know to have policy suggestions."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Policy Suggestions - Filter Suggestions w/ Occurence Count GT 'x' & averageViolation rating GT 'x'",
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/suggestions?$filter=occurrences+gt+5 and averageViolationRating+gt+3",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"policies",
+								"{{F5_asm_policy_id}}",
+								"suggestions"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "occurrences+gt+5 and averageViolationRating+gt+3",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "Request uses variable set in earlier request for the policy ID of a lab policy I know to have policy suggestions."
+					},
+					"response": []
+				},
+				{
+					"name": "Accept Policy Suggestion - Suggestion ID from stored variable",
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/suggestions?$filter=occurrences+gt+5 and averageViolationRating+gt+2.5",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"policies",
+								"{{F5_asm_policy_id}}",
+								"suggestions"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "occurrences+gt+5 and averageViolationRating+gt+2.5",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": accept\n}\n"
+						},
+						"description": "Request uses variable set in earlier request for the policy ID of a lab policy I know to have policy suggestions."
+					},
+					"response": []
+				},
+				{
+					"name": "Accept Policy Suggestions - Filtered Suggestions w/ Occurence Count GT 'x' & averageViolation rating GT 'x'",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"F5_asm_hkz_suggestion_id\",jsonData.items[0].id);",
+									"console.log(\"Items ID:\",jsonData.items[0].id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/suggestions?$filter=occurrences+gt+5 and averageViolationRating+gt+2",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"policies",
+								"{{F5_asm_policy_id}}",
+								"suggestions"
+							],
+							"query": [
+								{
+									"key": "$filter",
+									"value": "occurrences+gt+5 and averageViolationRating+gt+2",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"accept\"\n}"
+						},
+						"description": "Request uses variable set in earlier request for the policy ID of a lab policy I know to have policy suggestions."
+					},
+					"response": []
+				},
+				{
+					"name": "Apply ASM policy changes",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/tasks/apply-policy",
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"policyReference\":\n  {\n    \"link\": \"https://localhost/mgmt/tm/asm/policies/fXDGz9qxYabiLa9YIBCN7A\"\n  }\n}"
+						},
+						"description": "Requires policy ID embedded in JSON body.  In this example I have just placed a static Id."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Status of Apply ASM policy changes",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/tasks/apply-policy/{{F5_asm_policy_id}}",
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add URL to Policy",
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/urls?ver=12.1.1",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"policies",
+								"{{F5_asm_policy_id}}",
+								"urls"
+							],
+							"query": [
+								{
+									"key": "ver",
+									"value": "12.1.1",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"/fred3.html\",\n    \"description\": \"Fred's API Created URL\"\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add File Type to Policy",
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/policies/{{F5_asm_policy_id}}/filetypes?ver=12.1.1",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"asm",
+								"policies",
+								"{{F5_asm_policy_id}}",
+								"filetypes"
+							],
+							"query": [
+								{
+									"key": "ver",
+									"value": "12.1.1",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"xml\"}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update ASM Signature",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/tasks/update-signatures",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Export ASM Policy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"F5_asm_policy_export_id\", jsonData.id);",
+									"console.log(\"F5 ASM Policy ID:\",jsonData.items[0].id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/tasks/export-policy",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"filename\": \"BWC_Gov_Policy_exp\",\n\t\"policyReference\": {\n\t\t\"link\": \"https://localhost/mgmt/tm/asm/policies/iPJB9kDVcluCtt7jJ5TKGg\"\n\t}\n}"
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Status of ASM Policy Export Task",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/tasks/export-policy/{{F5_asm_policy_export_id}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				},
+				{
+					"name": "Download Exported ASM Policy",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/asm/file-transfer/downloads/BWC_Gov_Policy_exp",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Note: This request requires MD5Hash to identify the policy (F5_asm_policy_id in Postman environmental variables), and a separate MD5 Hash for the ID of the specific violation.  To automate, would first need to grab the subviolation ID first, then append to URI."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DoS_Actions",
+			"description": "Requests in this folder are just for viewing and manipulating elements of the ASM DoS Profile",
+			"item": [
+				{
+					"name": "POST New DOS Profile (name)",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/security/dos/profile/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"API_DOS\"}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "POST New DOS BotDefense",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/security/dos/profile/~Common~API_DOS/application",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"API_DOS\",\"botDefense\": {\n                \"crossDomainRequests\": \"allow-all\",\n                \"gracePeriod\": 300,\n                \"mode\": \"during-attacks\",\n                \"urlWhitelist\": [\n                    \"/fred.html\",\n                    \"/index.html\"\n                ]\n            }\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "POST VS DOS Profile Add",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/virtual/~Common~p80_virtual/profiles",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\": \"API_DOS\"}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Put Update DOS WhiteList",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/security/dos/profile/~Common~API_DOS/application/API_DOS",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n            \"ipWhitelist\": [\n              {\"name\": \"192.168.1.0/24\"}\n              {\"name\": \"192.168.0.0/24\"}\n            ]\n}        \n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Put Update GeoLocation",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/security/dos/profile/~Common~API_DOS/application/API_DOS",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n            \"geolocations\": [\n                {\n                    \"name\": \"Germany\",\n                    \"blackListed\": true\n                }\n    ]\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "LTM_Policy_Actions",
+			"description": "Requests in this folder are for making LTM policy changes for enabling/disabling ASM, or making policy switches based on policy rules.",
+			"item": [
+				{
+					"name": "Get LTM - Virtuals -Specifc Virtual-Expanding-Sub",
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/virtual/~Common~hkz.lab.mne.demo_vs?ver=12.1.0",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm",
+								"virtual",
+								"~Common~hkz.lab.mne.demo_vs"
+							],
+							"query": [
+								{
+									"key": "ver",
+									"value": "12.1.0",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"admin\",\n    \"loginProviderName\":\"tmos\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get LTM - Virtuals -Specifc Virtual-Policies",
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/virtual/~Common~hkz.lab.mne.demo_vs/policies?expandSubcollections=true&ver=12.1.0",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm",
+								"virtual",
+								"~Common~hkz.lab.mne.demo_vs",
+								"policies"
+							],
+							"query": [
+								{
+									"key": "expandSubcollections",
+									"value": "true",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "ver",
+									"value": "12.1.0",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"admin\",\n    \"loginProviderName\":\"tmos\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "LTM - POST - Add policy to VS",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/virtual/~Common~hkz.lab.mne.demo_vs/policies/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"asm_auto_l7_policy__hkz.lab.mne.demo_vs\"\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "LTM - POST - Delete Policy from VS",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/virtual/~Common~hkz.lab.mne.demo_vs/policies/asm_auto_l7_policy__hkz.lab.mne.demo_vs",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Simple ASM Workflow - Step 1 - Create Transaction",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"postman.setEnvironmentVariable(\"simple_asm_wf_transaction\", jsonData.transId);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/transaction",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Simple ASM Workflow - Step 2 - Remove Existing ASM Policy from VIP",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/virtual/~Common~hkz.lab.mne.demo_vs/policies/asm_auto_l7_policy__hkz.lab.mne.demo_vs",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							},
+							{
+								"key": "X-F5-REST-Coordination-Id",
+								"value": "{{simple_asm_wf_transaction}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"asm_auto_l7_policy__hkz.lab.mne.demo_vs\"\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Simple ASM Workflow - Step 3 - Add new ASM policy to VIP",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/virtual/~Common~hkz.lab.mne.demo_vs/policies/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							},
+							{
+								"key": "X-F5-REST-Coordination-Id",
+								"value": "{{simple_asm_wf_transaction}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"asm_auto_l7_policy__hkz.lab.mne.demo_vs\"\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Simple ASM Workflow - Step 4 - View the transaction",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/transaction/{{simple_asm_wf_transaction}}/commands",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							},
+							{
+								"key": "X-F5-REST-Coordination-Id",
+								"value": "{{simple_asm_wf_transaction}}",
+								"description": "",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Simple ASM Workflow - Step 5 - Commit the transaction",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/transaction/{{transaction_id}}",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							},
+							{
+								"key": "X-F5-REST-Coordination-Id",
+								"value": "{{simple_asm_wf_transaction}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"state\":\"VALIDATING\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Simple ASM Workflow - Step 6 - Delete the transaction",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/transaction/{{simple_asm_wf_transaction}}",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-F5-auth-token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": "to be run when necessary, not necessarily as part of workflow"
+					},
+					"response": []
+				},
+				{
+					"name": "Simple ASM 2 Workflow - Step 1 - Create Transaction",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"postman.setEnvironmentVariable(\"simple_asm_wf_transaction_2\", jsonData.transId);"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/transaction",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get LTM Policy (Draft Policy)",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/policy/~Common~Drafts~asm_auto_l7_policy__hkz.lab.mne.demo_vs",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"admin\",\n    \"loginProviderName\":\"tmos\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create LTM Policy (Draft Policy)",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/policy/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"junk70\",\n  \"strategy\": \"first-match\",\n  \"subPath\": \"Drafts\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "LTM - Modify Existing Policy - Create Draft",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/policy/asm_auto_l7_policy__hkz.lab.mne.demo_vs",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"create-draft\": true\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get LTM - Get Rules on specific policy",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/policy/asm_auto_l7_policy__hkz.lab.mne.demo_vs/rules/",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"admin\",\n    \"loginProviderName\":\"tmos\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get LTM - Get Conditions on policy rule",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/policy/asm_auto_l7_policy__hkz.lab.mne.demo_vs/rules/test/conditions",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"admin\",\n    \"loginProviderName\":\"tmos\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get LTM - Get Actions on policy rule",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/policy/asm_auto_l7_policy__hkz.lab.mne.demo_vs/rules/test/actions",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"admin\",\n    \"loginProviderName\":\"tmos\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Modify LTM Policy Rule Action - Disable ASM -",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/policy/~Common~Drafts~asm_auto_l7_policy__hkz.lab.mne.demo_vs/rules/test/actions/0/",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"disable\": true,\n\t\"policy\": \"\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Modify LTM Policy Rule Action - Enable ASM -",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/policy/~Common~Drafts~asm_auto_l7_policy__hkz.lab.mne.demo_vs/rules/test/actions/0/",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"enable\": true,\n\t\"policy\": \"hkz.lab.mne.demo_vs\",\n\t\"request\": true\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Modify LTM Policy Rule Action - Switch Policy -",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/policy/~Common~Drafts~asm_auto_l7_policy__hkz.lab.mne.demo_vs/rules/test/actions/0/",
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"enable\": true,\n\t\"policy\": \"hkz.lab.mne.demo_vs\",\n\t\"request\": true\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add Rule to LTM Policy (Draft Policy)",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/policy/~Common~Drafts~asm_auto_l7_policy__hkz.lab.mne.demo_vs/rules/gocavs1/",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"gocavs1\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add Conditions to Policy Rule - HTTP URI - (Draft Policy)",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/policy/~Common~Drafts~asm_auto_l7_policy__hkz.lab.mne.demo_vs/rules/gocavs1/conditions/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"0\",\n\t\"httpUri\": true,\n\t\"path\": true,\n\t\"request\": true,\n\t\"startsWith\": true,\n\t\"values\": [\n\t\t\"cavs\",\n\t\t\"browns\"\n\t]\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add Conditions to Policy Rule - HTTP Host - (Draft Policy)",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/policy/~Common~Drafts~asm_auto_l7_policy__hkz.lab.mne.demo_vs/rules/gocavs1/conditions/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"0\",\n\t\"httpUri\": true,\n\t\"path\": true,\n\t\"request\": true,\n\t\"startsWith\": true,\n\t\"values\": [\n\t\t\"cavs\",\n\t\t\"browns\"\n\t]\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add Actions to Policy Rule - Set ASM Policy on URI Condition - (Draft Policy)",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/policy/~Common~Drafts~asm_auto_l7_policy__hkz.lab.mne.demo_vs/rules/gocavs1/actions/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"0\",\n\t\"httpUri\": true,\n\t\"path\": true,\n\t\"request\": true,\n\t\"startsWith\": true,\n\t\"values\": [\n\t\t\"cavs\",\n\t\t\"browns\"\n\t]\n}\n"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Publish Modified Draft Policy",
+					"request": {
+						"url": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/policy/~Common~Drafts~asm_auto_l7_policy__hkz.lab.mne.demo_vs",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"admin\",\n    \"loginProviderName\":\"tmos\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get LTM - Virtuals -Specifc Virtual-Policies copy",
+					"request": {
+						"url": {
+							"raw": "https://{{big_ip_a_mgmt}}/mgmt/tm/ltm/virtual/~Common~hkz.lab.mne.demo_vs/policies?expandSubcollections=true&ver=12.1.0",
+							"protocol": "https",
+							"host": [
+								"{{big_ip_a_mgmt}}"
+							],
+							"path": [
+								"mgmt",
+								"tm",
+								"ltm",
+								"virtual",
+								"~Common~hkz.lab.mne.demo_vs",
+								"policies"
+							],
+							"query": [
+								{
+									"key": "expandSubcollections",
+									"value": "true",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "ver",
+									"value": "12.1.0",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-F5-Auth-Token",
+								"value": "{{F5_auth_token}}",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"admin\",\n    \"loginProviderName\":\"tmos\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Step 2: Get Authentication Token-v12",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"F5_auth_token\", jsonData.token.token);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://{{big_ip_a_mgmt}}/mgmt/shared/authn/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"admin\",\n    \"loginProviderName\":\"tmos\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Step 2: Get Authentication Token-v13",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"F5_auth_token_v13\", jsonData.token.token);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://{{big_ip_a_mgmt_v13}}/mgmt/shared/authn/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"password\",\n    \"loginProviderName\":\"tmos\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
